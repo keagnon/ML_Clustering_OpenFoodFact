@@ -39,8 +39,10 @@ def get_data(file_path=None, nrows=None):
 if __name__ == "__main__":
     print(os.getcwd())
     data = get_data(file_path = "./data/en.openfoodfacts.org.products.csv", nrows=2000)
-    print(f"data set shape is {data.shape}")
-    print(data.iloc[0])
+    #print(f"data set shape is {data.shape}")
+    #print(data.iloc[0])
+
+    
 
 
 
