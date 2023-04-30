@@ -1,0 +1,3 @@
+paths:
+  # > 3Go english dataset
+  eng_dataset: "https://static.openfoodfacts.org/data/en.openfoodfacts.org.products.csv"
