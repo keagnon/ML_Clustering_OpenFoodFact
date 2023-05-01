@@ -4,12 +4,16 @@ setuptools>=26
 twine
 wheel>=0.29
 
+# new
+nltk
+
 # data science
 numpy
 pandas
 scikit-learn >=1.2.2
 seaborn
 plotly
+
 
 # nlp
 #gensim
