@@ -78,6 +78,20 @@ def summarize_clusters(cluster_labels, data, centroids, most_common_features):
         print()
 
 
+def select_numeric_columns(data):
+    """Selects only numeric columns from the dataset.
+
+    Args:
+        data (pd.DataFrame): Dataframe containing the dataset.
+
+    Returns:
+        pd.DataFrame: Dataframe with only numeric columns.
+    """
+    numeric_columns = data.select_dtypes(include=np.number)
+    return numeric_columns
+
+
+
 def generate_wordclouds(cluster_labels, data, item_names):
     """Generates word clouds for each cluster based on item names.
 
@@ -99,6 +113,24 @@ def generate_wordclouds(cluster_labels, data, item_names):
         plt.title(f"Cluster {label} Word Cloud")
         plt.show()
 
+
+
+def impute_missing_values(data):
+    """
+    Impute missing values in a DataFrame using the mean of the respective column.
+
+    :param data: A pandas DataFrame with missing values.
+    :return: A pandas DataFrame with missing values imputed.
+    """
+    imputer = SimpleImputer(missing_values=np.nan, strategy='mean')
+
+    # Apply the imputer only to numeric columns with any data
+    imputed_data = data.copy()
+    for col in data.columns:
+        if data[col].dtype.kind in 'biufc' and not data[col].isna().all():
+            imputed_data[col] = imputer.fit_transform(data[col].to_numpy().reshape(-1, 1)).flatten()
+
+    return imputed_data
 
 def display_centroids(centroids_df):
     """
@@ -124,3 +156,32 @@ def display_centroids(centroids_df):
 
     # Use pandas to print the DataFrame
     print(centroids_df)
+
+if __name__ == "__main__":
+    """
+    This script loads the dataset, preprocesses it by selecting numeric columns,
+    imputing missing values, and scaling the data. Then, it applies KMeans clustering
+    to find 4 clusters and summarizes their characteristics.
+    """
+    data = data_loader.get_data("..\data\en.openfoodfacts.org.products.csv", 100)
+    #Should drop columns that are not meaningful
+    numeric_data = select_numeric_columns(data)
+
+    imputed_data = impute_missing_values(numeric_data)
+    imputed_data = imputed_data.dropna(axis=1, how='all')
+
+    scaler = MinMaxScaler()
+    scaled_data = scaler.fit_transform(imputed_data)
+    kmeans = KMeans(n_clusters=4)
+    cluster_labels = kmeans.fit_predict(scaled_data)
+
+    centroids = calculate_centroids(cluster_labels, imputed_data)
+    display_centroids(centroids)
+    #most_common_features = get_most_common_features(cluster_labels, imputed_data)
+    #summarize_clusters(cluster_labels, imputed_data, centroids, most_common_features)
+
+    # Assuming the item names are stored in a column called "product_name"
+    item_names = data["product_name"]
+
+    # Call the generate_wordclouds function
+    generate_wordclouds(cluster_labels, imputed_data, item_names)
