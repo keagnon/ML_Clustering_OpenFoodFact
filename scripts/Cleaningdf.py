@@ -8,6 +8,8 @@ import seaborn as sns
 
 from sklearn.impute import SimpleImputer
 from sklearn.preprocessing import StandardScaler, LabelEncoder, OneHotEncoder
+from sklearn.preprocessing import LabelEncoder
+from sklearn.preprocessing import OneHotEncoder
 
 
 from sklearn.preprocessing import StandardScaler
@@ -182,63 +184,4 @@ def filter_dataframe(final_df):
     
     return final_df
 
-
-
-def manage_outliers(data, method='StandardScaler', threshold=3, strategy='median'):
-    """
-    ---------------------------------------------------------------
-    Goal:
-    Detects and manages outliers in a dataset using various methods.
-    ---------------------------------------------------------------
-    Parameters:
-    -----------
-    data : pandas.DataFrame or numpy.ndarray
-        The dataset to manage outliers for.
-    method : str, optional (default='StandardScaler')
-        The method to use for outlier detection. Can be one of:
-            - 'StandardScaler': Uses the StandardScaler method to scale the data and 
-               then uses the z-score method based on the standard deviation.
-            - 'DBSCAN': Uses the DBSCAN clustering algorithm to identify outliers.
-            - 'IsolationForest': Uses the Isolation Forest algorithm to identify outliers.
-    threshold : float, optional (default=3)
-        The threshold used to determine outliers. 
-        Values above or below this threshold are considered outliers.
-    strategy : str, optional (default='median')
-        The strategy used to manage outliers. Can be one of:
-            - 'median': Replaces outliers with the median value of the feature.
-            - 'mean': Replaces outliers with the mean value of the feature.
-    ----------------------------------------------------------------------
-    Returns:
-    --------
-    pandas.DataFrame
-        The cleaned dataset with outliers managed.
-    """
-    # Scaling the data if method is StandardScaler
-    if method == 'StandardScaler':
-        scaler = StandardScaler()
-        data = scaler.fit_transform(data)
-
-    # Detecting outliers using the selected method
-    if method == 'StandardScaler':
-        z_scores = np.abs(data)
-        outliers = np.where(z_scores > threshold)
-    elif method == 'DBSCAN':
-        dbscan = DBSCAN(eps=threshold, min_samples=2)
-        outliers = dbscan.fit_predict(data) == -1
-    elif method == 'IsolationForest':
-        iso_forest = IsolationForest(contamination=threshold)
-        outliers = iso_forest.fit_predict(data) == -1
-
-    # Managing outliers using the selected strategy
-    if strategy == 'median':
-        replacements = np.median(data, axis=0)
-    elif strategy == 'mean':
-        replacements = np.mean(data, axis=0)
-
-    data[outliers] = replacements
-
-    # Returning the cleaned data
-    if method == 'StandardScaler':
-        data = scaler.inverse_transform(data)
-    return data
 
