@@ -104,7 +104,7 @@ def select_nutrition_col(data,all_nutrition_cols):
     for col in all_nutrition_cols:
         res = (data[col].isnull().sum() / len(data)) * 100
         res = round(res,2)
-        if res < 50:
+        if res < 80:
             nutrition_col_to_keep.append(col)
             i += 1
             #print(f'   - {col} : {res}%')
@@ -176,11 +176,12 @@ def clean_filter_dataframe(final_df):
     imputer = imputer.fit(final_df[numeric_cols])
     final_df[numeric_cols] = imputer.transform(final_df[numeric_cols])
 
-    #Input value base on the strategy choosen for object columns
+    final_df.dropna(subset=['categories_en'], inplace=True)
+    """#Input value base on the strategy choosen for object columns
     imputer_categoriel = SimpleImputer(strategy='most_frequent', 
                             missing_values=np.nan)
     imputer_categoriel = imputer_categoriel.fit(final_df[object_cols])
-    final_df[object_cols] = imputer_categoriel.transform(final_df[object_cols])
+    final_df[object_cols] = imputer_categoriel.transform(final_df[object_cols])"""
     
     return final_df
 
