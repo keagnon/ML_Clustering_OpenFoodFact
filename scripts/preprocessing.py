@@ -86,16 +86,6 @@ def fill_rate_features(df):
 
 
 def clean_dataframe(df,colonnes_a_garder):
-    
-    """
-        ---------------------------------------------------------------------------------
-        Goal : 
-            - Clean dataset
-        ---------------------------------------------------------------------------------
-        Parameters:
-            - df : Dataframe to be analyzed
-        ---------------------------------------------------------------------------------
-    """
 
     #Delete all columns except those to keep
     colonnes_a_supprimer = [col for col in df.columns if col not in colonnes_a_garder]
@@ -139,7 +129,17 @@ def remove_inconsistent_values(df):
     return df
 
 
-def filter_dataframe(final_df):
+def clean_filter_dataframe(final_df):
+
+    """
+        ---------------------------------------------------------------------------------
+        Goal : 
+            - Clean dataset
+        ---------------------------------------------------------------------------------
+        Parameters:
+            - final_df : Dataframe to be analyzed
+        ---------------------------------------------------------------------------------
+    """
 
     drop_duplicates(final_df)
 
