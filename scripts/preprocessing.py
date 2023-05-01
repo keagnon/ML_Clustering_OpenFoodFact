@@ -76,8 +76,8 @@ def run(df):
 
     df = drop_columns_not_in_list(df, features_list)
 
-    df = remove_columns_clean_100g_columnswith_missing_values(df, 0.9)
-    df = (df)
+    df = remove_columns_with_missing_values(df, 0.9)
+    df = clean_100g_columns(df)
 
 
     #print(df)
