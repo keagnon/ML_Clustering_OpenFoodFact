@@ -1,5 +1,6 @@
 import numpy as np
 import pandas as pd
+from scripts import data_loader
 from collections import Counter
 from sklearn.preprocessing import MinMaxScaler
 from sklearn.cluster import KMeans

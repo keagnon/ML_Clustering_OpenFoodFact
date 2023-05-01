@@ -11,18 +11,6 @@ def get_columns_ending_with_100g(df):
     """
     return [col for col in df.columns if col.endswith('_100g')]
 
-def remove_rows_with_nan(dataframe, column_name):
-    """
-    Removes rows with NaN values in the specified column from the DataFrame.
-
-    Args:
-        dataframe (pd.DataFrame): The DataFrame containing the column.
-        column_name (str): The name of the column to check for NaN values.
-
-    Returns:
-        pd.DataFrame: A new DataFrame with rows containing NaN values in the specified column removed.
-    """
-    return dataframe.dropna(subset=[column_name])
 
 def clean_100g_columns(df):
     """
@@ -42,6 +30,7 @@ def clean_100g_columns(df):
             df[col] = df[col].apply(trans_nutrient_value)
 
         df[col] = df[col].apply(lambda x: x if 0 <= x <= 100 else None)
+        #Removes nan by 0, may be worth imputing instead
         df[col].fillna(0, inplace=True)
 
     return df
@@ -70,13 +59,26 @@ def drop_columns_not_in_list(df, columns_to_keep):
     """
     return df[columns_to_keep]
 
+def remove_rows_with_nan(dataframe, column_name):
+    """
+    Removes rows with NaN values in the specified column from the DataFrame.
+
+    Args:
+        dataframe (pd.DataFrame): The DataFrame containing the column.
+        column_name (str): The name of the column to check for NaN values.
+
+    Returns:
+        pd.DataFrame: A new DataFrame with rows containing NaN values in the specified column removed.
+    """
+    return dataframe.dropna(subset=[column_name])
+
 def run(df):
     features_list = []
     features_list.extend(get_columns_ending_with_100g(df))
 
     df = drop_columns_not_in_list(df, features_list)
 
-    df = remove_columns_with_missing_values(df, 0.9)
+    df = remove_columns_with_missing_values(df, 0.7)
     df = clean_100g_columns(df)
 
 
