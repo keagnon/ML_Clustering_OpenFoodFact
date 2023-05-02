@@ -3,10 +3,6 @@
 """
 import yaml
 import pandas as pd
-import os
-import numpy as np
-
-
 
 def read_config(file_path='./config.yaml'):
     """Reads configuration file
@@ -33,15 +29,10 @@ def get_data(file_path=None, nrows=None):
         file_path = cfg['paths']['eng_dataset']
     print("Reading dataset ...")
     return pd.read_csv(file_path,sep="\t", encoding="utf-8",
-                       nrows=50, low_memory=False)
-
+                       nrows=nrows, low_memory=False)
 
 if __name__ == "__main__":
-    print(os.getcwd())
-    data = get_data(file_path = "./data/en.openfoodfacts.org.products.csv", nrows=2000)
-    print(f"data set shape is {data.shape}")
-    print(data.iloc[0])
-
-
+    data = get_data(file_path = "../data/en.openfoodfacts.org.products.csv", nrows=50)
+    #print(f"data set shape is {data.shape}")
 
 
