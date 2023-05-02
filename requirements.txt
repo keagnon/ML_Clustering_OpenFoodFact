@@ -1,7 +1,0 @@
-PyYAML
-pandas
-numpy
-matplotlib
-
-
-
