@@ -1,7 +1,47 @@
-PyYAML
-pandas
+# packaging
+pip>=9
+setuptools>=26
+twine
+wheel>=0.29
+
+# new
+nltk
+
+# data science
 numpy
-matplotlib
+pandas
+scikit-learn >=1.2.2
+seaborn
+plotly
 
 
+# nlp
+#gensim
+#spacy
 
+# UI
+#dash
+#dash_bootstrap_components
+#streamlir
+wordcloud
+
+# tests/linter
+black
+
+# coverage
+# flake8
+# pytest
+# yapf
+
+# API
+# gcsfs
+# google-cloud-storage
+# mlflow
+# s3fs
+
+# utilities
+# six>=1.14
+joblib
+pyyaml>=6.0
+# memoized-property
+# termcolor

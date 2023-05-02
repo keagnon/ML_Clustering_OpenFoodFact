@@ -1,47 +1,20 @@
+from scripts import data_loader
+from scripts import data_explo
+from scripts import preprocessing
+from scripts import model_training
+from scripts import cluster_interpretation
 
-"""Data loading tools
-"""
-import yaml
-import pandas as pd
-import os
-import numpy as np
-
-
-
-def read_config(file_path='./config.yaml'):
-    """Reads configuration file
-    Args:
-        file_path (str, optional): file path
-    Returns:
-        dict: Parsed configuration file
-    """
-    with open(file_path, "r") as f:
-        return yaml.safe_load(f)
-
-def get_data(file_path=None, nrows=None):
-    """Loads data
-    Args:
-        file_path (str, optional): file path of dataset
-            By default load data set from static web page
-        nrows (int, optional): number or rows to loads from dataset
-            By default loads all dataset
-    Returns:
-        dataframe: output dataframe
-    """
-    if file_path is None:
-        cfg = read_config()
-        file_path = cfg['paths']['eng_dataset']
-    print("Reading dataset ...")
-    return pd.read_csv(file_path,sep="\t", encoding="utf-8",
-                       nrows=50, low_memory=False)
-
+file_path = "data/en.openfoodfacts.org.products.csv"
 
 if __name__ == "__main__":
-    print(os.getcwd())
-    data = get_data(file_path = "./data/en.openfoodfacts.org.products.csv", nrows=2000)
+    data = data_loader.get_data(file_path, nrows=10000)
+    data = preprocessing.remove_rows_with_nan(data, "product_name")
     print(f"data set shape is {data.shape}")
-    print(data.iloc[0])
-
-
-
+# --------------------------------------------------------------------------------------------------------------------------------------------------------
+    df = preprocessing.run(data)
+#--------------------------------------------------------------------------------------------------------------------------------------------------------
+    clusters_labels = model_training.run(df)
+    item_names = data["product_name"]
+    cluster_interpretation.generate_wordclouds(clusters_labels, df, item_names)
+#--------------------------------------------------------------------------------------------------------------------------------------------------------
 

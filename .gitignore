@@ -1,1 +1,8 @@
-data/
+.coverage
+.ipynb_checkpoints
+.DS_Store
+*.csv
+en.openfoodfacts.org.products.csv
+**/__pycache__/
+.env
+.idea
