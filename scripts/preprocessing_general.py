@@ -1,3 +1,26 @@
+"""
+preprocessing_general.py
+
+This module contains functions for general preprocessing tasks on pandas DataFrames. It includes functions for:
+- Removing rows with NaN values in a specified column
+- Dropping columns not included in a given list
+- Removing columns with a high percentage of missing values
+- Splitting a DataFrame into numeric and textual DataFrames
+- Merging preprocessed numeric and textual DataFrames
+- Running the general preprocessing pipeline
+
+The main function 'run' executes the preprocessing pipeline, splitting the input DataFrame into numeric and textual DataFrames, applying preprocessing_numeric and preprocessing_textual scripts, and merging the preprocessed DataFrames.
+
+Functions:
+- remove_rows_with_nan(dataframe, column_name)
+- drop_columns_not_in_list(df, columns_to_keep)
+- remove_columns_with_missing_values(df, threshold=0.8)
+- split_dataframe(data)
+- merge_dataframes(numeric_df, textual_df)
+- run(data)
+"""
+
+
 import pandas as pd
 from scripts import preprocessing_general
 from scripts import preprocessing_numeric

@@ -1,27 +1,48 @@
+"""
+preprocessing_numeric.py
+
+This module contains functions for preprocessing numeric data in pandas DataFrames. It includes functions for:
+- Getting columns ending with '_100g'
+- Cleaning columns ending with '_100g'
+- Running the numeric preprocessing pipeline
+
+The main function 'run' executes the preprocessing pipeline on the input DataFrame, getting the columns ending with '_100g',
+dropping columns not in that list, removing columns with more than 70% missing values, and cleaning the '_100g' columns.
+
+Functions:
+- get_columns_ending_with_100g(df)
+- clean_100g_columns(df)
+- run(df)
+"""
+
+
 import pandas as pd
 import numpy as np
 from scripts import preprocessing_general
 
 def get_columns_ending_with_100g(df):
     """
-    Given a DataFrame, returns a list of column names ending with "100g".
+    Returns a list of column names in a DataFrame that end with '_100g'.
 
-    :param df: pandas DataFrame
-    :return: list of column names ending with "100g"
+    Args:
+        df (pd.DataFrame): The input DataFrame.
+
+    Returns:
+        list: A list of column names that end with '_100g'.
     """
     return [col for col in df.columns if col.endswith('_100g')]
 
 
 def clean_100g_columns(df):
     """
-    This function removes values that are not between 0 and 100 in any columns ending with '_100g' in a given DataFrame
-    and replaces NaN values with 0.
+    Cleans columns ending with '_100g' in a given DataFrame by removing values that are not between 0 and 100,
+    and replacing NaN values with 0.
 
-    Parameters:
-    df (pandas.DataFrame): The input DataFrame containing columns ending with '_100g' to be cleaned.
+    Args:
+        df (pd.DataFrame): The input DataFrame containing columns ending with '_100g' to be cleaned.
 
     Returns:
-    pandas.DataFrame: A DataFrame with values not between 0 and 100 in the specified columns removed and NaN values replaced with 0.
+        pd.DataFrame: A DataFrame with values not between 0 and 100 in the specified columns removed and NaN values replaced with 0.
     """
     columns_100g = [col for col in df.columns if col.endswith('_100g')]
 
@@ -37,6 +58,16 @@ def clean_100g_columns(df):
 
 
 def run(df):
+    """
+    Executes the numeric preprocessing pipeline on the input DataFrame, including getting the columns ending with '_100g',
+    dropping columns not in that list, removing columns with more than 70% missing values, and cleaning the '_100g' columns.
+
+    Args:
+        df (pd.DataFrame): The input DataFrame containing numeric data.
+
+    Returns:
+        pd.DataFrame: The preprocessed DataFrame.
+    """
     features_list = []
     features_list.extend(get_columns_ending_with_100g(df))
 
