@@ -12,6 +12,7 @@ if __name__ == "__main__":
     data = data_loader.get_data(file_path, nrows=10000)
     data = preprocessing_general.remove_rows_with_nan(data, "product_name")
     print(f"data set shape is {data.shape}")
+
 # --------------------------------------------------------------------------------------------------------------------------------------------------------
     df = preprocessing_general.run(data)
     Features_used = df.columns
