@@ -61,15 +61,17 @@ def split_dataframe(data):
     return numeric_df, textual_df
 
 def merge_dataframes(numeric_df, textual_df):
-    return numeric_df.join(textual_df)
+    numeric_textual_columns = textual_df.select_dtypes(include=['number']).columns
+    return numeric_df.join(textual_df[numeric_textual_columns])
+
 
 def run(data):
     numeric_df, textual_df = split_dataframe(data)
     numeric_df = preprocessing_numeric.run(numeric_df)
-    #textual_df = preprocessing_textual.run(textual_df)
-    #preprocessed_df = merge_dataframes(numeric_df, textual_df)
-    #return preprocessed_df
-    return numeric_df
+    textual_df = preprocessing_textual.run(textual_df)
+    preprocessed_df = merge_dataframes(numeric_df, textual_df)
+    return preprocessed_df
+    #return numeric_df
 
 if __name__ == "__main__":
     print("Hi")
