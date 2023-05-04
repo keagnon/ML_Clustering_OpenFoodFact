@@ -13,8 +13,3 @@ if __name__ == "__main__":
     print(f"data set shape is {data.shape}")
     data_exploration.types_of_data(data)
 
-
-
-
-
-
